@@ -1,27 +1,33 @@
-from selenium import webdriver
-from selenium.webdriver.common.by import By
+from tkinter import *
+from functools import partial
 
-# Create a new instance of the Firefox driver (you can use other drivers like Chrome as well)
-driver = webdriver.Chrome()
 
-# Navigate to the website
-driver.get("https://lowcars.co.in")
+def validateLogin(username, password):
+    print("username entered :", username.get())
+    print("password entered :", password.get())
+    return
 
-try:
-    # Find and click the login button
-    login_button = driver.find_element(By.LINK_TEXT, "Contact")
-    login_button.click()
 
-    # Wait for a few seconds to allow the page to load after clicking the button
-    driver.implicitly_wait(5)  # You can adjust the waiting time as needed
-    login_button = driver.find_element(By.LINK_TEXT, "Offers")
-    driver.implicitly_wait(5)
-    login_button.click()
-    # Print the current page's HTML content
-    print(driver.page_source)
+# window
+tkWindow = Tk()
+tkWindow.geometry('400x150')
+tkWindow.title('Tkinter Login Form - pythonexamples.org')
 
-except Exception as e:
-    print("An error occurred:", e)
+# username label and text entry box
+usernameLabel = Label(tkWindow, text="User Name").grid(row=0, column=0)
+username = StringVar()
+usernameEntry = Entry(tkWindow, textvariable=username).grid(row=0, column=1)
 
-# Close the browser
-# driver.quit()
+# password label and password entry box
+passwordLabel = Label(tkWindow, text="Password").grid(row=1, column=0)
+password = StringVar()
+passwordEntry = Entry(tkWindow, textvariable=password,
+                      show='*').grid(row=1, column=1)
+
+validateLogin = partial(validateLogin, username, password)
+
+# login button
+loginButton = Button(tkWindow, text="Login",
+                     command=validateLogin).grid(row=4, column=0)
+
+tkWindow.mainloop()
